@@ -62,6 +62,10 @@ public class TwoDArray {
 			}
 			numberMap.put(this.defaultVal, numberMap.get(this.defaultVal) -1);
 
+			if(numberMap.get(this.defaultVal) == 0)
+				numberMap.remove(this.defaultVal);
+			
+
 			return "Success!" + val + " was inserted.";
 		}
 		if(this.arr[row][col] != this.defaultVal){
