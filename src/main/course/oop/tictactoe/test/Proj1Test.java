@@ -42,7 +42,7 @@ public class Proj1Test {
 	}
 	
 	public static void main(String[] args) {
-		Proj1Test.runBasicTest(5, 10, 3);		
+		Proj1Test.runBasicTest(5, 10, 3);
 	}
 
 }
