@@ -1,4 +1,4 @@
-package main.course.oop.tictactoe.util;
+package course.oop;
 import java.util.HashMap;
 
 /**
@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class TwoDArray {
 	
-	private int arr[][];
+	protected int arr[][];
 	private int defaultVal;
 	private HashMap <Integer, Integer> numberMap = new HashMap<>();
 	
@@ -38,7 +38,7 @@ public class TwoDArray {
 		this.numberMap.put(defaultVal, this.arr.length * this.arr[0].length);	
 	}
 	
-	public String insertInt(int row, int col, int val) {
+	public int insertInt(int x, int y, int val) {
 		/*TODO - "Insert" based on the following conditions:
 		 * 1. The location [row][col] is still set to the default value
 		 * 		-return "Success! (val) was inserted.
@@ -52,8 +52,12 @@ public class TwoDArray {
 		 * Note: Print the int value in place of (). 
 		 * e.g., replace (val) with val.
 		 */
-		if(this.arr[row][col] == this.defaultVal){
-			this.arr[row][col] = val;
+		if(val == this.defaultVal){
+			//"Failure: "+val+" is not allowed"
+			return -2;
+		}
+		if(this.arr[x][y] == this.defaultVal){
+			this.arr[x][y] = val;
 			if(numberMap.containsKey(val)){
 				numberMap.put(val, numberMap.get(val) +1);
 			}else{
@@ -64,18 +68,17 @@ public class TwoDArray {
 
 			if(numberMap.get(this.defaultVal) == 0)
 				numberMap.remove(this.defaultVal);
-			
 
-			return "Success!" + val + " was inserted.";
+			//"Success! " + val + " was inserted."
+			return 0;
 		}
-		if(this.arr[row][col] != this.defaultVal){
-			return "Failure: "+row+", "+col+" is not empty";
-		}
-		if(val == this.defaultVal){
-			return "Failure: "+val+" is not allowed";
+		if(this.arr[x][y] != this.defaultVal){
+			//"Failure: "+row+", "+col+" is not empty"
+			return -1;
 		}
 
-		return null;
+		//null
+		return -3;
 	}
 	
 	public int getInt(int row, int col) {
@@ -124,7 +127,7 @@ public class TwoDArray {
 		}
 
 		return list;
-	}		
+	}
 
 }
 

@@ -1,6 +1,6 @@
 package main.course.oop.tictactoe.test;
 
-import main.course.oop.tictactoe.util.TwoDArray;
+import course.oop.TwoDArray;
 
 public class Proj1Test {
 

@@ -1,26 +1,29 @@
 package course.oop;
 
+import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class TwoDArrayTest {
+    TwoDArray twoD = new TwoDArray(3,3,0);
 
-    @org.junit.Test
+    @Test
     public void initArray() {
+        System.out.println(twoD.getArrayDetails());
+        twoD.getArrayDisplay();
     }
 
-    @org.junit.Test
+    @Test
     public void insertInt() {
+        assertEquals(0, twoD.insertInt(0, 1,1 ));
+        assertEquals(-1, twoD.insertInt(0,1,1));
+        assertEquals(-2, twoD.insertInt(0,0,0));
     }
 
-    @org.junit.Test
+    @Test
     public void getInt() {
-    }
-
-    @org.junit.Test
-    public void getArrayDisplay() {
-    }
-
-    @org.junit.Test
-    public void getArrayDetails() {
+        twoD.insertInt(0, 1,1 );
+        assertEquals(0, twoD.getInt(0,0));
+        assertEquals(1, twoD.getInt(0,1));
     }
 }
