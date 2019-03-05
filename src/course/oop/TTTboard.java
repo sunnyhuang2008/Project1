@@ -46,7 +46,12 @@ public class TTTboard extends TwoDArray{
     //Board Specific Methods
 
     //Ultimate checkwin
+    /*
+    * returns the player number if the player won in any scenario
+    * returns 0 if no wins by this player has been detected
+    * */
     public int ultimateCheckWin(int player){
+
         //check columns
         evaluation: for(int i = 0; i < arr.length; i++){
             for(int j = 0; j < arr.length; j++){
@@ -137,4 +142,11 @@ public class TTTboard extends TwoDArray{
     public void clearBoard(){
         initArray(0);
     }
+
+    public boolean checkValidPlayer(int playerNum){
+        if(playerNum == m_player1 || playerNum == m_player2)
+            return true;
+        return false;
+    }
+
 }

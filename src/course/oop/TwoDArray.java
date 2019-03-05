@@ -52,6 +52,9 @@ public class TwoDArray {
 		 * Note: Print the int value in place of (). 
 		 * e.g., replace (val) with val.
 		 */
+		if(!checkCoordinateBounds(x) || !checkCoordinateBounds(y))
+			return -3; //out of bound
+
 		if(val == this.defaultVal){
 			//"Failure: "+val+" is not allowed"
 			return -2;
@@ -127,6 +130,11 @@ public class TwoDArray {
 		}
 
 		return list;
+	}
+
+	public boolean checkCoordinateBounds(int num){
+		if(num < 0 || num >= arr.length) return false;
+		return true;
 	}
 
 }
