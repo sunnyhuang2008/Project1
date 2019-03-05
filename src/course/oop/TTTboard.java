@@ -1,6 +1,7 @@
 package course.oop;
+import java.util.ArrayList;
 
-public class TTTboard extends TwoDArray{ //maybe inherit from 2D array
+public class TTTboard extends TwoDArray{
     private int m_player1;
     private int m_player2;
 
@@ -24,7 +25,69 @@ public class TTTboard extends TwoDArray{ //maybe inherit from 2D array
         return arr.length;
     }
 
+    //get available moves currently: Use to generate moves for computer
+    public ArrayList<int []> getAvaliable(){
+        ArrayList <int[]> result = new ArrayList<int []>();
+
+        for(int i = 0; i < arr.length; i++){
+            for(int j = 0; j < arr.length; j++){
+                if(arr[i][j] == 0){
+                    int [] res = {i,j};
+                    result.add(res);
+                }
+
+            }
+        }
+
+        return result;
+    }
+
+
     //Board Specific Methods
+
+    //Ultimate checkwin
+    public int ultimateCheckWin(int player){
+        //check columns
+        evaluation: for(int i = 0; i < arr.length; i++){
+            for(int j = 0; j < arr.length; j++){
+                if(arr[i][j] != player)
+                    break evaluation;
+                if(j == arr.length-1)
+                    return player;
+            }
+        }
+
+        //check rows
+        evaluation: for(int i = 0; i < arr.length; i++){
+            for(int j = 0; j < arr.length; j++){
+                if(arr[j][i] != player)
+                    break evaluation;
+                if(j == arr.length-1)
+                    return player;
+            }
+        }
+
+        //check diagonal
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i][i] != player)
+                break;
+            if(i == arr.length-1)
+                return player;
+        }
+
+        //check anti diagonal
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i][arr.length-1-i]!=player)
+                break;
+            if(i == arr.length-1)
+                return player;
+
+        }
+
+        return 0;
+    }
+
+    //check step by step
     public int checkWin(int player, int x, int y){
         //check columns
         for(int i = 0; i < arr.length; i ++){
@@ -61,6 +124,11 @@ public class TTTboard extends TwoDArray{ //maybe inherit from 2D array
                     return player;
 
             }
+        }
+
+        //check if no more avaliable spaces
+        if(getAvaliable().size() == 0){
+            return 3;
         }
 
         return 0;
