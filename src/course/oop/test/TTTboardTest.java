@@ -1,26 +1,18 @@
-package course.oop;
+package course.oop.test;
 
+import course.oop.TTTboard;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class TTTboardTest {
 
-    TTTboard twoD = new TTTboard(1, 2);
-    @Test
-    public void player1(){
-        assertEquals(1, twoD.player1());
-    }
-
-    @Test
-    public void player2(){
-        assertEquals(2, twoD.player2());
-    }
+    TTTboard twoD = new TTTboard("M", "F");
 
     @Test
     public void getAvaliable(){
         for(int i = 0; i < twoD.size(); i++){
-            twoD.insertInt(i,i,twoD.player1());
+            twoD.insertInt(i,i,1);
             assertEquals(9-i-1, twoD.getAvaliable().size());
         }
     }

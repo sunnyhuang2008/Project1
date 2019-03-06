@@ -14,8 +14,11 @@ public class TTTControllerImpl implements TTTControllerInterface {
     * TODO: Implement unit tests for other functions, the code is quite dependent
     * TODO: Implement main function to get logistics inplace after controller works
     */
-    TTTgameRound thisRound; //placeholder for the game round
-    ArrayList<TTTplayer> players = new ArrayList<TTTplayer>(); //Auxiliary array for player creation
+
+    public TTTControllerImpl(){}
+
+    public TTTgameRound thisRound; //placeholder for the game round
+    public ArrayList<TTTplayer> players = new ArrayList<TTTplayer>(); //Auxiliary array for player creation
 
     public void startNewGame(int numPlayers, int timeoutInSecs){
         if(numPlayers > 2 || numPlayers <= 0){
@@ -23,22 +26,27 @@ public class TTTControllerImpl implements TTTControllerInterface {
          return;
         }
 
-        TTTboard board = new TTTboard(1,2);
         if(numPlayers == 1){
             TTTcomputerPlayer computer = new TTTcomputerPlayer("Steve", 2, "X");
+            TTTboard board = new TTTboard(players.get(0).marker(),"X");
             thisRound = new TTTgameRound(players.get(0), computer, board);
             return;
         }
 
-        if(numPlayers == 2)
+        if(numPlayers == 2) {
+            TTTboard board = new TTTboard(players.get(0).marker(), players.get(1).marker());
             thisRound = new TTTgameRound(players.get(0), players.get(1), board);
+        }
 
         return;
-
     }
 
     public void createPlayer(String username, String marker, int playerNum){
+        if(playerNum != 1 && playerNum != 2 || marker.length() != 1)
+            return;
+
         players.add(new TTThumanPlayer(username, playerNum, marker));
+        return;
     }
 
     //Check if player is valid, row, col within bounds and space is available and set the value
@@ -63,7 +71,7 @@ public class TTTControllerImpl implements TTTControllerInterface {
     }
 
     public String getGameDisplay(){
-        return thisRound.board().getArrayDisplay();
+        return thisRound.board().display();
     }
 
 }

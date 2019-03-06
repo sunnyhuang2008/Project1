@@ -2,23 +2,12 @@ package course.oop;
 import java.util.ArrayList;
 
 public class TTTboard extends TwoDArray{
-    private int m_player1;
-    private int m_player2;
+    private String [] players;
 
     //constructor
-    public TTTboard(int p_player1, int p_player2){
+    public TTTboard(String player1Marker, String player2Marker){
         super(3, 3,0);
-        m_player1 = p_player1;
-        m_player2 = p_player2;
-    }
-
-    //getter methods
-    public int player1(){
-        return this.m_player1;
-    }
-
-    public int player2(){
-        return this.m_player2;
+        players = new String [] {player1Marker, player2Marker};
     }
 
     public int size(){
@@ -53,20 +42,20 @@ public class TTTboard extends TwoDArray{
     public int ultimateCheckWin(int player){
 
         //check columns
-        evaluation: for(int i = 0; i < arr.length; i++){
+        for(int i = 0; i < arr.length; i++){
             for(int j = 0; j < arr.length; j++){
                 if(arr[i][j] != player)
-                    break evaluation;
+                    break;
                 if(j == arr.length-1)
                     return player;
             }
         }
 
         //check rows
-        evaluation: for(int i = 0; i < arr.length; i++){
+        for(int i = 0; i < arr.length; i++){
             for(int j = 0; j < arr.length; j++){
                 if(arr[j][i] != player)
-                    break evaluation;
+                    break;
                 if(j == arr.length-1)
                     return player;
             }
@@ -141,12 +130,28 @@ public class TTTboard extends TwoDArray{
 
     public void clearBoard(){
         initArray(0);
+        return;
     }
 
-    public boolean checkValidPlayer(int playerNum){
-        if(playerNum == m_player1 || playerNum == m_player2)
+    public boolean checkValidPlayer(int playerNum){ // TODO: Not extendable, need to change
+        if(playerNum == 1 || playerNum == 2)
             return true;
         return false;
+    }
+
+    public String display(){
+        for(int i = 0; i < arr.length; i++){
+            for(int j = 0; j < arr.length; j++){
+                if(arr[i][j] == 1)
+                    System.out.print(players[0]+ "	");
+                else if(arr[i][j] == 2)
+                    System.out.print(players[1]+ "	");
+                else
+                    System.out.print("0"+ "	");
+            }
+            System.out.println("");
+        }
+        return "complete";
     }
 
 }

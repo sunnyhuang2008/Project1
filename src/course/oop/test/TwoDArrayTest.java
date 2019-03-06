@@ -1,5 +1,6 @@
-package course.oop;
+package course.oop.test;
 
+import course.oop.TwoDArray;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
