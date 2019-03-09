@@ -27,8 +27,9 @@ public class TTTControllerImpl implements TTTControllerInterface {
         }
 
         if(numPlayers == 1){
-            TTTcomputerPlayer computer = new TTTcomputerPlayer("Steve", 2, "X");
-            TTTboard board = new TTTboard(players.get(0).marker(),"X");
+            TTTcomputerPlayer computer = new TTTcomputerPlayer("Computer", 2, "<>");
+            players.add(computer);
+            TTTboard board = new TTTboard(players.get(0).marker(),"<>");
             thisRound = new TTTgameRound(players.get(0), computer, board);
             return;
         }
@@ -72,6 +73,12 @@ public class TTTControllerImpl implements TTTControllerInterface {
 
     public String getGameDisplay(){
         return thisRound.board().display();
+    }
+
+    public String player(int num){ return players.get(num).name();}
+
+    public boolean computerGenerateMove(){
+        return setSelection(thisRound.board().getAvaliable().get(0)[0], thisRound.board().getAvaliable().get(0)[1], 2);
     }
 
 }
