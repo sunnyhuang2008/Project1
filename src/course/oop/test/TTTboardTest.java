@@ -18,6 +18,11 @@ public class TTTboardTest {
     }
 
     @Test
+    public void display(){
+        twoD.display();
+    }
+
+    @Test
     public void checkWin(){
         //check a row
         for(int i = 0; i < twoD.size(); i++){

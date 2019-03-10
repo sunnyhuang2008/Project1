@@ -34,9 +34,9 @@ public class TTTDriver {
 
 
 
-        System.out.println("Welcome to two person 3X3 Tic Tac Toe. ");
+        System.out.println("Welcome to two person 3X3 Tic Tac Toe. ❌⭕️❌⭕️💯");
         System.out.println("---------------------------------------");
-        System.out.println("type 404 to quit");
+        System.out.println("type 404 to quit 🚫");
 
         //Get number of players
         while(!isValid){
@@ -101,12 +101,12 @@ public class TTTDriver {
             //Get Marker for the first player
             isValid = false;
             while (!isValid){
-                System.out.println("Enter the marker of the second player: ");
+                System.out.println("Enter the marker of the second player 😁: ");
                 if(checkString(in) && inputStr.length() == 1 && !inputStr.equalsIgnoreCase(marker1) && !inputStr.contentEquals("0")){
                     marker2 = inputStr;
                     isValid = true;
                 }else{
-                    System.out.println("Marker must be one character long and different from "+ marker1);
+                    System.out.println("😂 Marker must be one character long and different from "+ marker1);
                 }
             }
 
@@ -123,8 +123,8 @@ public class TTTDriver {
         controller.startNewGame(numOfPlayers,timeoutSec);
 
         //Start the game
-        System.out.println("Let the game begin!");
-        System.out.println("The first player will go first");
+        System.out.println("Let the game begin! 😆");
+        System.out.println("The first player will go first 👀");
 
 
         while(controller.determineWinner() == 0){
@@ -139,12 +139,12 @@ public class TTTDriver {
                 isValid = controller.computerGenerateMove();
 
                 if(isValid) {
-                    System.out.println(controller.player(1) +" move generated, "+ controller.player(0) +", hit me with your best shot!");
+                    System.out.println(controller.player(1) +" move generated, marked by \"囧\" "+ controller.player(0) +", hit me with your best shot! 😈");
                     alternateTurn();
                 }
 
             }else{
-                System.out.println(controller.player(turnCounter-1)+ ", its your turn! Enter your coordinates as \"x y\" on command line");
+                System.out.println(controller.player(turnCounter-1)+ ", its your turn! Enter your coordinates as \"x y\" on command line 😉");
                 //Prompt user to move
                 if(controller.timeout == 0){
                     while(!isValid){
@@ -167,7 +167,7 @@ public class TTTDriver {
                     }
 
                     if(!isValid){
-                        System.out.println("Time is up. You cannot make move for now.");
+                        System.out.println("Time is up. You cannot make move for now. 😅");
                         isValid = true;
                         alternateTurn();
                     }
@@ -178,12 +178,13 @@ public class TTTDriver {
         controller.getGameDisplay();
 
         if(controller.determineWinner() != 3){
-            System.out.println("Congrats "+controller.player(controller.determineWinner()-1)+"! You win!");
+            System.out.println("Congrats "+controller.player(controller.determineWinner()-1)+"! You win! 😎");
         }else{
-            System.out.println("No one wins");
+            System.out.println("No one wins 😜");
         }
 
     }
+
     public static void alternateTurn(){
         //alternate turns
         if(turnCounter == 1)
@@ -205,27 +206,27 @@ public class TTTDriver {
                     y_coordinate = Integer.parseInt(inputStrings[1]);
 
                     if(!(x_coordinate  >= 0 && x_coordinate <= 3)){
-                        System.out.println("column coordinate is invalid, needs to be int between 0 and 3");
+                        System.out.println("column coordinate is invalid, needs to be int between 0 and 3 ⚠️");
                     }else if(!(y_coordinate  >= 0 && y_coordinate <= 3)){
-                        System.out.println("row coordinate is invalid, needs to be int between 0 and 3");
+                        System.out.println("row coordinate is invalid, needs to be int between 0 and 3 ⚠️");
                     }else if(controller.setSelection(y_coordinate, x_coordinate, turnCounter)){
                         System.out.println("Success!");
                         //alternate turns
                         alternateTurn();
                         isValid = true;
                     }else{
-                        System.out.println("Try again, the spot is taken.");
+                        System.out.println("Try again, the spot is taken. 😜");
                         isValid = false;
                     }
                 }catch (NumberFormatException e){
-                    System.out.println("Invalid inputs, please enter numbers.");
+                    System.out.println("Invalid inputs, please enter numbers. 🔢");
 
                 }
             }else if(inputStrings.length == 1 && inputStrings[0].equalsIgnoreCase("404")){
-                System.out.println("Game Quitted ~");
+                System.out.println("Game Quitted ~ 👋");
                 System.exit(0);
             }else{
-                System.out.println("Invalid input, please enter column and row");
+                System.out.println("Invalid input, please enter column and row ⚠️");
                 isValid = false;
             }
         }
@@ -237,16 +238,16 @@ public class TTTDriver {
             String extraString = userInput.nextLine();
             if(extraString.trim().isEmpty()){
                 if(inputNum == 404){
-                    System.out.println("Game Quited ~");
+                    System.out.println("Game Quited ~ 👋");
                     System.exit(0);
                 }
                 return true;
             }else{
-                System.out.println("Input invalid");
+                System.out.println("Input invalid ⚠️");
                 return false;
             }
         }catch(InputMismatchException e){
-            System.out.println("Invalid input.");
+            System.out.println("Invalid input. ⚠️");
             userInput.next();
             return false;
         }
@@ -256,7 +257,7 @@ public class TTTDriver {
         try{
             inputStr= userInput.nextLine();
             if(inputStr.trim().isEmpty()){
-                System.out.println("Empty string ");
+                System.out.println("Empty string 😱");
                 return false;
             }
             return true;
@@ -266,7 +267,7 @@ public class TTTDriver {
                 System.exit(0);
             }
 
-            System.out.println("Invalid input");
+            System.out.println("Invalid input ⚠️");
             userInput.next();
             return false;
 
