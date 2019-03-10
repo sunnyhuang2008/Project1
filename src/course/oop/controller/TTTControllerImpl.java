@@ -19,8 +19,11 @@ public class TTTControllerImpl implements TTTControllerInterface {
 
     public TTTgameRound thisRound; //placeholder for the game round
     public ArrayList<TTTplayer> players = new ArrayList<TTTplayer>(); //Auxiliary array for player creation
+    public int timeout;
 
     public void startNewGame(int numPlayers, int timeoutInSecs){
+        timeout = timeoutInSecs;
+
         if(numPlayers > 2 || numPlayers <= 0){
          System.out.println("Invalid amount of players");
          return;

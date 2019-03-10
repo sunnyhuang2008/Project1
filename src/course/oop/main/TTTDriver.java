@@ -1,22 +1,28 @@
 package course.oop.main;
 
 import course.oop.controller.TTTControllerImpl;
-
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TTTDriver {
 
     private static Scanner in;
+    private static BufferedReader userInput;
     private static String inputStr;
     private static int inputNum;
     private static TTTControllerImpl controller = new TTTControllerImpl();
     private static int turnCounter = 1;
     private static int x_coordinate;
     private static int y_coordinate;
+    //Variable key to safe guard input verification
+    private static boolean isValid = false;
 
     public static void main(String[] args){
         in = new Scanner(System.in);
+        userInput = new BufferedReader(new InputStreamReader(System.in));
         int numOfPlayers = 0;
 
         //User creation variables
@@ -24,9 +30,9 @@ public class TTTDriver {
         String name2 = null;
         String marker1 = null;
         String marker2 = null;
+        int timeoutSec = 0;
 
-        //Variable key to safe guard input verification
-        boolean isValid = false;
+
 
         System.out.println("Welcome to two person 3X3 Tic Tac Toe. ");
         System.out.println("---------------------------------------");
@@ -39,6 +45,20 @@ public class TTTDriver {
                 numOfPlayers = inputNum;
                 if(!(inputNum == 1 || inputNum == 2)){
                     System.out.println("Invalid number, must be 1 or 2");
+                }else {
+                    isValid = true;
+                }
+            }
+        }
+
+        //Get time out seconds
+        isValid = false;
+        while(!isValid){
+            System.out.print("Enter seconds for time out: ");
+            if(checkNumeric(in)){
+                timeoutSec = inputNum;
+                if(inputNum > 100){
+                    System.out.println("Too long of a game, try less than 100 seconds");
                 }else {
                     isValid = true;
                 }
@@ -100,30 +120,57 @@ public class TTTDriver {
         }
 
         //game round created
-        controller.startNewGame(numOfPlayers,10);
+        controller.startNewGame(numOfPlayers,timeoutSec);
 
         //Start the game
         System.out.println("Let the game begin!");
         System.out.println("The first player will go first");
-        System.out.println(controller.player(turnCounter-1)+ ", its your turn!");
+
 
         while(controller.determineWinner() == 0){
             controller.getGameDisplay();
+
             isValid = false;
 
             //prompt the user for position input
-            while(!isValid){
-                if(numOfPlayers == 1 && turnCounter== 2){
-                    //computer generate moves
-                    isValid = controller.computerGenerateMove();
 
-                    if(isValid) {
-                        System.out.println(controller.player(1) +" move generated, "+ controller.player(0) +", hit me with your best shot!");
-                        alternateTurn();
+            if(numOfPlayers == 1 && turnCounter== 2){
+                //computer generate moves
+                isValid = controller.computerGenerateMove();
+
+                if(isValid) {
+                    System.out.println(controller.player(1) +" move generated, "+ controller.player(0) +", hit me with your best shot!");
+                    alternateTurn();
+                }
+
+            }else{
+                System.out.println(controller.player(turnCounter-1)+ ", its your turn! Enter your coordinates as \"x y\" on command line");
+                //Prompt user to move
+                if(controller.timeout == 0){
+                    while(!isValid){
+                        try{
+                            getHumanMoves(userInput);
+                        }catch (IOException e){
+                            System.out.println(e);
+                        }
+                    }
+                }else{
+
+                    long startTime = System.currentTimeMillis();
+                    while (!isValid && (System.currentTimeMillis() - startTime) < controller.timeout * 1000)
+                    {
+                        try{
+                            getHumanMoves(userInput);
+                        }catch (IOException e){
+                            System.out.println(e);
+                        }
                     }
 
-                }else{
-                    isValid = promptHumanMoves();
+                    if(!isValid){
+                        System.out.println("Time is up. You cannot make move for now.");
+                        isValid = true;
+                        alternateTurn();
+                    }
                 }
             }
         }
@@ -145,39 +192,43 @@ public class TTTDriver {
             turnCounter = 1;
     }
 
-    public static  boolean promptHumanMoves(){
-        System.out.println(controller.player(turnCounter-1)+ ", please input your row coordinate");
+    public static void getHumanMoves(BufferedReader in) throws IOException{
+        //If we have input
+        if(in.ready()){
+            String inputStr = (in.readLine()).trim();
+            String [] inputStrings = inputStr.split("\\s+");
 
-        if(checkNumeric(in) && inputNum >= 0 && inputNum <= 3){
-            x_coordinate = inputNum;
-            System.out.println(controller.player(turnCounter-1)+ ", please input your column coordinate");
+            //Check if there are two inputs
+            if(inputStrings.length == 2){
+                try{
+                    x_coordinate = Integer.parseInt(inputStrings[0]);
+                    y_coordinate = Integer.parseInt(inputStrings[1]);
 
-            //eval is y is valid
-            if(checkNumeric(in) && inputNum >= 0 && inputNum <= 3){
-                y_coordinate = inputNum;
+                    if(!(x_coordinate  >= 0 && x_coordinate <= 3)){
+                        System.out.println("column coordinate is invalid, needs to be int between 0 and 3");
+                    }else if(!(y_coordinate  >= 0 && y_coordinate <= 3)){
+                        System.out.println("row coordinate is invalid, needs to be int between 0 and 3");
+                    }else if(controller.setSelection(y_coordinate, x_coordinate, turnCounter)){
+                        System.out.println("Success!");
+                        //alternate turns
+                        alternateTurn();
+                        isValid = true;
+                    }else{
+                        System.out.println("Try again, the spot is taken.");
+                        isValid = false;
+                    }
+                }catch (NumberFormatException e){
+                    System.out.println("Invalid inputs, please enter numbers.");
 
-                //Eval if spot is taken
-                if(controller.setSelection(x_coordinate,y_coordinate,turnCounter)){
-
-                    System.out.println("Success!");
-
-                    //alternate turns
-                    alternateTurn();
-
-                    return true;
-
-                }else{
-                    System.out.println("Try again, the spot is taken.");
                 }
-
+            }else if(inputStrings.length == 1 && inputStrings[0].equalsIgnoreCase("404")){
+                System.out.println("Game Quitted ~");
+                System.exit(0);
             }else{
-                System.out.println("Column coordinate is invalid, needs to be int between 0 and 3");
+                System.out.println("Invalid input, please enter column and row");
+                isValid = false;
             }
-        }else{
-            System.out.println("Row coordinate is invalid, needs to be int between 0 and 3");
         }
-
-        return false;
     }
 
     public static boolean checkNumeric(Scanner userInput){
