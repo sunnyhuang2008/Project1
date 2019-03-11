@@ -1,4 +1,4 @@
-package course.oop;
+package course.oop.other;
 import java.util.HashMap;
 
 /**

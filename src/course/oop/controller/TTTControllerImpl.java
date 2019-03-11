@@ -1,6 +1,6 @@
 package course.oop.controller;
 
-import course.oop.*;
+import course.oop.other.*;
 
 import java.util.ArrayList;
 

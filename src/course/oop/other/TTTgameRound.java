@@ -1,4 +1,4 @@
-package course.oop;
+package course.oop.other;
 
 public class TTTgameRound {
     private TTTplayer m_player1;

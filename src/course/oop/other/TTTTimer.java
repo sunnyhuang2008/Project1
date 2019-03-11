@@ -1,4 +1,4 @@
-package course.oop;
+package course.oop.other;
 
 public class TTTTimer {
     private int m_timeout;

@@ -1,6 +1,6 @@
 package course.oop.test;
 
-import course.oop.TTTboard;
+import course.oop.other.TTTboard;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

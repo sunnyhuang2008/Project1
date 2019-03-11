@@ -1,7 +1,8 @@
-package course.oop;
+package course.oop.other;
+
 import java.util.ArrayList;
 
-public class TTTboard extends TwoDArray{
+public class TTTboard extends TwoDArray {
     private String [] players;
 
     //constructor

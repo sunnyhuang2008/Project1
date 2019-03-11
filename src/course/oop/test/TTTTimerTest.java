@@ -1,12 +1,9 @@
 package course.oop.test;
 
-import course.oop.TTTTimer;
-import org.junit.Test;
+import course.oop.other.TTTTimer;
 
 import java.io.IOException;
-import java.util.Scanner;
 
-import static org.junit.Assert.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
