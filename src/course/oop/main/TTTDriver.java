@@ -17,6 +17,7 @@ public class TTTDriver {
     private static int turnCounter = 1;
     private static int x_coordinate;
     private static int y_coordinate;
+
     //Variable key to safe guard input verification
     private static boolean isValid = false;
 
@@ -26,74 +27,59 @@ public class TTTDriver {
         int numOfPlayers = 0;
 
         //User creation variables
-        String name1 = null;
-        String name2 = null;
-        String marker1 = null;
-        String marker2 = null;
-        int timeoutSec = 0;
+        String name1;
+        String name2;
+        String marker1;
+        String marker2;
+        int timeoutSec;
+        Boolean exit = false; //Variable to track if user wants to exit
 
+        while(!exit){
 
+            name1 = null;
+            name2 = null;
+            marker1 = null;
+            marker2 = null;
+            timeoutSec = 0;
 
-        System.out.println("Welcome to two person 3X3 Tic Tac Toe. ❌⭕️❌⭕️💯");
-        System.out.println("---------------------------------------");
-        System.out.println("type 404 to quit 🚫");
+            System.out.println("Welcome to two person 3X3 Tic Tac Toe.");
+            System.out.println("---------------------------------------");
+            System.out.println("type 404 to quit ");
 
-        //Get number of players
-        while(!isValid){
-            System.out.print("Enter # of players (1 or 2): ");
-            if(checkNumeric(in)){
-                numOfPlayers = inputNum;
-                if(!(inputNum == 1 || inputNum == 2)){
-                    System.out.println("Invalid number, must be 1 or 2");
-                }else {
-                    isValid = true;
-                }
-            }
-        }
-
-        //Get time out seconds
-        isValid = false;
-        while(!isValid){
-            System.out.print("Enter seconds for time out: ");
-            if(checkNumeric(in)){
-                timeoutSec = inputNum;
-                if(inputNum > 100){
-                    System.out.println("Too long of a game, try less than 100 seconds");
-                }else {
-                    isValid = true;
-                }
-            }
-        }
-
-        //Get name of first player
-        isValid = false;
-        while(!isValid){
-            System.out.print("Enter the name of the first player: ");
-            if(checkString(in)){
-                name1 = inputStr;
-                isValid = true;
-            }
-        }
-
-        //Get Marker for the first player
-        isValid = false;
-        while (!isValid){
-            System.out.println("Enter the marker of the first player: ");
-            if(checkString(in) && inputStr.length() == 1){
-                marker1 = inputStr;
-                isValid = true;
-            }else{
-                System.out.println("Marker must be one character long");
-            }
-        }
-
-        if(numOfPlayers == 2){
-            //Get name of second player
+            //Get number of players
             isValid = false;
             while(!isValid){
-                System.out.print("Enter the name of the second player: ");
+                System.out.print("Enter # of players (1 or 2): ");
+                if(checkNumeric(in)){
+                    numOfPlayers = inputNum;
+                    if(!(inputNum == 1 || inputNum == 2)){
+                        System.out.println("Invalid number, must be 1 or 2");
+                    }else {
+                        isValid = true;
+                    }
+                }
+            }
+
+            //Get time out seconds
+            isValid = false;
+            while(!isValid){
+                System.out.print("Enter seconds for time out: ");
+                if(checkNumeric(in)){
+                    timeoutSec = inputNum;
+                    if(inputNum > 100){
+                        System.out.println("Too long of a game, try less than 100 seconds");
+                    }else {
+                        isValid = true;
+                    }
+                }
+            }
+
+            //Get name of first player
+            isValid = false;
+            while(!isValid){
+                System.out.print("Enter the name of the first player: ");
                 if(checkString(in)){
-                    name2 = inputStr;
+                    name1 = inputStr;
                     isValid = true;
                 }
             }
@@ -101,88 +87,134 @@ public class TTTDriver {
             //Get Marker for the first player
             isValid = false;
             while (!isValid){
-                System.out.println("Enter the marker of the second player 😁: ");
-                if(checkString(in) && inputStr.length() == 1 && !inputStr.equalsIgnoreCase(marker1) && !inputStr.contentEquals("0")){
-                    marker2 = inputStr;
-                    isValid = true;
+                System.out.println("Enter the marker of the first player: ");
+                if(checkString(in) && inputStr.length() == 1 && !inputStr.equalsIgnoreCase("0")){
+                    if(numOfPlayers == 1 && inputStr.equalsIgnoreCase("#")){
+                        System.out.println("Pick another marker, computer is #");
+                    }else{
+                        marker1 = inputStr;
+                        isValid = true;
+                    }
                 }else{
-                    System.out.println("😂 Marker must be one character long and different from "+ marker1);
+                    System.out.println("Marker must be one character long and must not be \'0\'");
                 }
             }
 
-            //create two human players
-            controller.createPlayer(name1,marker1,1);
-            controller.createPlayer(name2,marker2,2);
-
-        }else {
-            //just create one human player
-            controller.createPlayer(name1,marker1,1);
-        }
-
-        //game round created
-        controller.startNewGame(numOfPlayers,timeoutSec);
-
-        //Start the game
-        System.out.println("Let the game begin! 😆");
-        System.out.println("The first player will go first 👀");
-
-
-        while(controller.determineWinner() == 0){
-            controller.getGameDisplay();
-
-            isValid = false;
-
-            //prompt the user for position input
-
-            if(numOfPlayers == 1 && turnCounter== 2){
-                //computer generate moves
-                isValid = controller.computerGenerateMove();
-
-                if(isValid) {
-                    System.out.println(controller.player(1) +" move generated, marked by \"囧\" "+ controller.player(0) +", hit me with your best shot! 😈");
-                    alternateTurn();
+            if(numOfPlayers == 2){
+                //Get name of second player
+                isValid = false;
+                while(!isValid){
+                    System.out.print("Enter the name of the second player: ");
+                    if(checkString(in)){
+                        name2 = inputStr;
+                        isValid = true;
+                    }
                 }
 
-            }else{
-                System.out.println(controller.player(turnCounter-1)+ ", its your turn! Enter your coordinates as \"x y\" on command line 😉");
-                //Prompt user to move
-                if(controller.timeout == 0){
-                    while(!isValid){
-                        try{
-                            getHumanMoves(userInput);
-                        }catch (IOException e){
-                            System.out.println(e);
-                        }
-                    }
-                }else{
-
-                    long startTime = System.currentTimeMillis();
-                    while (!isValid && (System.currentTimeMillis() - startTime) < controller.timeout * 1000)
-                    {
-                        try{
-                            getHumanMoves(userInput);
-                        }catch (IOException e){
-                            System.out.println(e);
-                        }
-                    }
-
-                    if(!isValid){
-                        System.out.println("Time is up. You cannot make move for now. 😅");
+                //Get Marker for the first player
+                isValid = false;
+                while (!isValid){
+                    System.out.println("Enter the marker of the second player: ");
+                    if(checkString(in) && inputStr.length() == 1 && !inputStr.equalsIgnoreCase(marker1) && !inputStr.contentEquals("0")){
+                        marker2 = inputStr;
                         isValid = true;
+                    }else{
+                        System.out.println("Marker must be one character long and different from "+ marker1);
+                    }
+                }
+
+                //create two human players
+                controller.createPlayer(name1,marker1,1);
+                controller.createPlayer(name2,marker2,2);
+
+            }else {
+                //just create one human player
+                controller.createPlayer(name1,marker1,1);
+            }
+
+            //game round created
+            controller.startNewGame(numOfPlayers,timeoutSec);
+
+            //Start the game
+            System.out.println("Let the game begin!");
+            System.out.println("The first player will go first");
+
+
+            while(controller.determineWinner() == 0){
+                System.out.println(controller.getGameDisplay());
+
+                isValid = false;
+
+                //prompt the user for position input
+
+                if(numOfPlayers == 1 && turnCounter== 2){
+                    //computer generate moves
+                    isValid = controller.computerGenerateMove();
+
+                    if(isValid) {
+                        System.out.println(controller.player(1) +" move generated, marked by \"#\" "+ controller.player(0) +", hit me with your best shot! ");
                         alternateTurn();
                     }
+
+                }else{
+                    System.out.println(controller.player(turnCounter-1)+ ", its your turn! Enter your coordinates as \"x y\" on command line ");
+                    //Prompt user to move
+                    if(controller.timeout == 0){
+                        while(!isValid){
+                            try{
+                                getHumanMoves(userInput);
+                            }catch (IOException e){
+                                System.out.println(e);
+                            }
+                        }
+                    }else{
+
+                        long startTime = System.currentTimeMillis();
+                        while (!isValid && (System.currentTimeMillis() - startTime) < controller.timeout * 1000)
+                        {
+                            try{
+                                getHumanMoves(userInput);
+                            }catch (IOException e){
+                                System.out.println(e);
+                            }
+                        }
+
+                        if(!isValid){
+                            System.out.println("Time is up. You cannot make move for now.");
+                            isValid = true;
+                            alternateTurn();
+                        }
+                    }
+                }
+            }
+
+            System.out.println(controller.getGameDisplay());
+
+            if(controller.determineWinner() != 3){
+                System.out.println("Congrats "+controller.player(controller.determineWinner()-1)+"! You win! ");
+            }else{
+                System.out.println("No one wins ");
+            }
+
+            //Ask if want to continue
+           isValid = false;
+            while(!isValid){
+                System.out.println("Would you like to start again? Type Y for Yes, N for No");
+                if(checkString(in)){
+                    if(!(inputStr.equalsIgnoreCase("N")|| inputStr.equalsIgnoreCase("Y"))){
+                        System.out.println("Invalid input, must be N or Y");
+                    }else {
+                        isValid = true;
+                        controller.restart();
+                        if(inputStr.equalsIgnoreCase("N")) {
+                            exit = true;
+                        }
+                    }
                 }
             }
         }
 
-        controller.getGameDisplay();
-
-        if(controller.determineWinner() != 3){
-            System.out.println("Congrats "+controller.player(controller.determineWinner()-1)+"! You win! 😎");
-        }else{
-            System.out.println("No one wins 😜");
-        }
-
+        System.out.println("Game Quitted ~ ");
     }
 
     public static void alternateTurn(){
@@ -193,6 +225,7 @@ public class TTTDriver {
             turnCounter = 1;
     }
 
+    //To prompt human user inputs
     public static void getHumanMoves(BufferedReader in) throws IOException{
         //If we have input
         if(in.ready()){
@@ -206,58 +239,60 @@ public class TTTDriver {
                     y_coordinate = Integer.parseInt(inputStrings[1]);
 
                     if(!(x_coordinate  >= 0 && x_coordinate <= 3)){
-                        System.out.println("column coordinate is invalid, needs to be int between 0 and 3 ⚠️");
+                        System.out.println("column coordinate is invalid, needs to be int between 0 and 3");
                     }else if(!(y_coordinate  >= 0 && y_coordinate <= 3)){
-                        System.out.println("row coordinate is invalid, needs to be int between 0 and 3 ⚠️");
+                        System.out.println("row coordinate is invalid, needs to be int between 0 and 3");
                     }else if(controller.setSelection(y_coordinate, x_coordinate, turnCounter)){
                         System.out.println("Success!");
                         //alternate turns
                         alternateTurn();
                         isValid = true;
                     }else{
-                        System.out.println("Try again, the spot is taken. 😜");
+                        System.out.println("Try again, the spot is taken.");
                         isValid = false;
                     }
                 }catch (NumberFormatException e){
-                    System.out.println("Invalid inputs, please enter numbers. 🔢");
+                    System.out.println("Invalid inputs, please enter numbers.");
 
                 }
             }else if(inputStrings.length == 1 && inputStrings[0].equalsIgnoreCase("404")){
-                System.out.println("Game Quitted ~ 👋");
+                System.out.println("Game Quitted ~ ");
                 System.exit(0);
             }else{
-                System.out.println("Invalid input, please enter column and row ⚠️");
+                System.out.println("Invalid input, please enter column and row️");
                 isValid = false;
             }
         }
     }
 
+    //Check input to see if they are valid numeric value (Supports game quit as well)
     public static boolean checkNumeric(Scanner userInput){
         try{
             inputNum = userInput.nextInt();
             String extraString = userInput.nextLine();
             if(extraString.trim().isEmpty()){
                 if(inputNum == 404){
-                    System.out.println("Game Quited ~ 👋");
+                    System.out.println("Game Quited ~");
                     System.exit(0);
                 }
                 return true;
             }else{
-                System.out.println("Input invalid ⚠️");
+                System.out.println("Input invalid️");
                 return false;
             }
         }catch(InputMismatchException e){
-            System.out.println("Invalid input. ⚠️");
+            System.out.println("Invalid input.");
             userInput.next();
             return false;
         }
     }
 
+    //Check input to see if they are valid string value (Supports game quit as well)
     public static  boolean checkString(Scanner userInput){
         try{
             inputStr= userInput.nextLine();
             if(inputStr.trim().isEmpty()){
-                System.out.println("Empty string 😱");
+                System.out.println("Empty string");
                 return false;
             }
             return true;
@@ -267,7 +302,7 @@ public class TTTDriver {
                 System.exit(0);
             }
 
-            System.out.println("Invalid input ⚠️");
+            System.out.println("Invalid input");
             userInput.next();
             return false;
 

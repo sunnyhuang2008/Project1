@@ -30,9 +30,9 @@ public class TTTControllerImpl implements TTTControllerInterface {
         }
 
         if(numPlayers == 1){
-            TTTcomputerPlayer computer = new TTTcomputerPlayer("Computer", 2, "<>");
+            TTTcomputerPlayer computer = new TTTcomputerPlayer("Computer", 2, "#");
             players.add(computer);
-            TTTboard board = new TTTboard(players.get(0).marker(),"囧");
+            TTTboard board = new TTTboard(players.get(0).marker(),players.get(1).marker());
             thisRound = new TTTgameRound(players.get(0), computer, board);
             return;
         }
@@ -82,6 +82,11 @@ public class TTTControllerImpl implements TTTControllerInterface {
 
     public boolean computerGenerateMove(){
         return setSelection(thisRound.board().getAvaliable().get(0)[0], thisRound.board().getAvaliable().get(0)[1], 2);
+    }
+
+    //Reset the game
+    public void restart(){
+        players = new ArrayList<TTTplayer>();
     }
 
 }

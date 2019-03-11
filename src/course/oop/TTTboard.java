@@ -140,20 +140,25 @@ public class TTTboard extends TwoDArray{
     }
 
     public String display(){
+        String result = "";
 
         for(int i = 0; i < arr.length; i++){
             for(int j = 0; j < arr.length; j++){
                 if(arr[i][j] == 1){
-                    System.out.format("%10s",players[0]);
+                   // System.out.format("%10s",players[0]);
+                    result = result + players[0] + "   ";
                 }
                 else if(arr[i][j] == 2) {
-                    System.out.format("%10s",players[1]);
+                  //  System.out.format("%10s",players[1]);
+                    result = result + players[1] + "   ";
                 }else{
-                    System.out.format("%10s","口");
+                 //   System.out.format("%10s","0");
+                    result = result + "0" + "   ";
                 }
             }
-            System.out.println("");
+          //  System.out.println("");
+            result = result + "\n";
         }
-        return "complete";
+        return result;
     }
 }
