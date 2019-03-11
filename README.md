@@ -14,4 +14,8 @@ This is a command line interface program to play tic tac toe with the computer o
 - Users can input a one character marker that is different from the computer player and the default value, the computer player has "#" as its marker and the default value is "0"
 - Users can set time out for each turn, 100 seconds is the maximum limit. Time limit if 0 is unlimited time for each turn.
 - If the user did not make a move before time out, the user loses a turn.
-- You will be able to start over and play again after the round is over. 
+- You will be able to start over and play again after the round is over.
+
+### How to Compile 
+- Using IntelliJ or Eclipse, import the project from the source file. Then navigate to the main folder and run TTTDriver.java via the run button. 
+- Using terminal, navigate the terminal to the Project1 folder and run command "javac src/course/oop/controller/\*.java", "javac src/course/oop/other/\*.java", "javac src/course/oop/main/\*.java" respectively. This compiles all the needed java files. Then, run "java src/course/oop/main/TTTDriver"
